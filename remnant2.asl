@@ -8,7 +8,15 @@ state("Remnant-Win64-Shipping") {}
 
 // Steam versions
 state("Remnant2-Win64-Shipping", "STEAM-397429") {
-	int isPlaying : 0x07D6C788, 0x470, 0x170;
+	bool isPlaying : 0x07D6C788, 0x470, 0x170;
+}
+
+state("Remnant2-Win64-Shipping", "STEAM-382873") {
+	bool isPlaying : 0x07C25590, 0x158, 0x210, 0xB0, 0x1A1;
+}
+
+state("Remnant2-Win64-Shipping", "STEAM-400313") {
+	bool isPlaying : 0x07D8F558, 0x470, 0x170;
 }
 // =============================
 
@@ -18,13 +26,17 @@ startup {
 
 	vars.hashToVersion = new Dictionary<string, string> {
 		// == Steam ==
-		{"76197FF9D374E59E32BF6E5004D2DA89", "397429"}
+		{"72FAF81E831F7120D3B0E7A66A6947D1", "400313"},
+		{"76197FF9D374E59E32BF6E5004D2DA89", "397429"},
+		{"B128B471801EA627591095DBB8BFA362", "382873"}
 	};
 	settings.Add("wait_for_first_load", false, "Wait for first load");
+	settings.Add("warn_unsupported_version", true, "Show a warning when starting a version of the game that isn't supported by the autosplitter.");
 }
 
 init
 {
+	vars.isLoading = settings["wait_for_first_load"];
 	vars.loadCount = 0;
 	vars.isLoading = true;
 	vars.gameModule = modules.First();
@@ -43,8 +55,10 @@ init
 
 	if(!vars.hashToVersion.ContainsKey(vars.gameHash)) {
 		print("[Remnant 2 ASL]: Unknown/Unsupported Game Hash: " + vars.gameHash.ToString());
-		MessageBox.Show("Unknown Game Hash: \"" + vars.gameHash.ToString() + "\" \n Contact the developers for help!\nHash Copied to clipboard...", "Remnant ASL", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		Clipboard.SetText(vars.gameHash.ToString());
+		if (settings["warn_unsupported_version"]) {
+			MessageBox.Show("Unknown Game Hash: \"" + vars.gameHash.ToString() + "\" \n Contact the developers for help!\nHash Copied to clipboard...", "Remnant ASL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
 		return;
 	}
 
@@ -60,9 +74,10 @@ onStart {
 }
 
 update {
-	vars.isLoading = current.isPlaying != 1;
-	if (old.isPlaying != 1 && current.isPlaying == 1) {
+	vars.isLoading = !current.isPlaying;
+	if (!old.isPlaying && current.isPlaying) {
 		vars.loadCount++;
+		print("Flipped");
 	}
 }
 
