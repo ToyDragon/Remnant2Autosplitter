@@ -18,6 +18,10 @@ state("Remnant2-Win64-Shipping", "STEAM-382873") {
 state("Remnant2-Win64-Shipping", "STEAM-400313") {
 	bool isPlaying : 0x07D8F558, 0x470, 0x170;
 }
+
+state("Remnant2-Win64-Shipping", "STEAM-402459") {
+	bool isPlaying : 0x07D8F5F0, 0x0, 0x170;
+}
 // =============================
 
 startup {
@@ -26,6 +30,7 @@ startup {
 
 	vars.hashToVersion = new Dictionary<string, string> {
 		// == Steam ==
+		{"446B0F47363EC9D7EEE64C78E8D74D2D", "402459"},
 		{"72FAF81E831F7120D3B0E7A66A6947D1", "400313"},
 		{"76197FF9D374E59E32BF6E5004D2DA89", "397429"},
 		{"B128B471801EA627591095DBB8BFA362", "382873"}
