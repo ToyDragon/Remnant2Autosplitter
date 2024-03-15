@@ -26,6 +26,10 @@ state("Remnant2-Win64-Shipping", "STEAM-402459") {
 state("Remnant2-Win64-Shipping", "STEAM-408516") {
 	bool isPlaying : 0x07F0EAF0, 0x0, 0x170;
 }
+
+state("Remnant2-Win64-Shipping", "STEAM-410790") {
+	bool isPlaying : 0x07F0FB70, 0x0, 0x170;
+}
 // =============================
 
 startup {
@@ -39,6 +43,7 @@ startup {
 		{"76197FF9D374E59E32BF6E5004D2DA89", "397429"},
 		{"B128B471801EA627591095DBB8BFA362", "382873"},
 		{"3E7A7635A1B7AFE3AC17C1AF0209E42B", "408516"},
+		{"31D20BA00F81BC1FA1AAD87A9DA158D2", "410790"},
 	};
 	settings.Add("wait_for_first_load", false, "Wait for first load");
 	settings.Add("warn_unsupported_version", true, "Show a warning when starting a version of the game that isn't supported by the autosplitter.");
